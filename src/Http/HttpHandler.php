@@ -57,7 +57,6 @@ class HttpHandler implements LoggerAwareInterface, Stringable
             $buffer = $this->stream->readLine(1024);
             $data .= $buffer;
         } while (substr_count($data, "\r\n\r\n") == 0);
-echo "---------- PULL: $data \n";
 
         list ($head, $body) = explode("\r\n\r\n", $data);
         $headers = array_filter(explode("\r\n", $head));
@@ -100,7 +99,6 @@ echo "---------- PULL: $data \n";
     public function push(MessageInterface $message): MessageInterface
     {
         $data = implode("\r\n", $message->getAsArray()) . "\r\n\r\n";
-echo "---------- PUSH: $data \n";
         $this->stream->write($data);
         return $message;
     }
